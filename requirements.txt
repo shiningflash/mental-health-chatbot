@@ -1,0 +1,7 @@
+openai
+python-dotenv
+requests
+pydantic
+watchdog
+streamlit
+streamlit-chat
