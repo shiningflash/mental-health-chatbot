@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 from core.chatbot import generate_response
 
@@ -8,6 +9,16 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown(
+    """
+    <meta property="og:title" content="🌕 Moon - Your Friend" />
+    <meta property="og:description" content="Moon: Always here for you. A friendly chatbot for your mental well-being." />
+    <meta property="og:image" content="images/moon.png" />
+    <meta property="og:url" content="https://moonishere.streamlit.app/" />
+    """,
+    unsafe_allow_html=True,
+)
+
 # Load external CSS for styling
 with open("styles/chat_styles.css") as css_file:
     st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
@@ -16,30 +27,68 @@ with open("styles/chat_styles.css") as css_file:
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Hi, I’m Moon 🌙, your friend. How can I brighten your day?"}]
 
-# Sidebar with warm information
+# Sidebar with warm and engaging information
 with st.sidebar:
-    # st.image("images/moon.png", width=100)
-    # st.title("🌕 Moon")
+    # Moon's logo
+    st.image("images/moon.png", width=200, caption="🌕 Moon: Always here for you.")
     
-    # Add a welcoming message
-    st.subheader("🌟 Welcome!")
-    st.write("Hi there! I'm Moon 🌙, your friend. I am always here to listen you. Let's talk about your day, your thoughts, or anything on your mind. ❤️")
-    
-    # Add a fun and engaging section to encourage interaction
-    st.info("💬 Feeling sad or overwhelmed? Share your story with me — I'm here to brighten your day! ✨")
-    
-    # Clear conversation button
-    st.markdown("")
-    if st.button("Clear Our Conversation"):
-        st.session_state.messages = [{"role": "assistant", "content": "Hi, I’m Moon 🌙, your friend. How can I brighten your day?"}]
-        st.success("Conversation cleared! Let's start fresh.")
-
-    # Add a lovely quote or tagline
-    st.markdown("***")
-    st.markdown(
-        "🌕 **Moon: Always here for you.**",
-        help="Moon is your empathetic friend, ready to chat and support you."
+    # Welcoming section
+    st.title("🌟 Welcome!")
+    st.write(
+        "Hi there! I'm **Moon 🌙**, your caring friend. "
+        "I'm here to listen, support, and brighten your day. 💖 "
+        "Let’s share your thoughts, feelings, or stories."
     )
+    
+    # Inspirational quote section
+    st.markdown("---")
+    st.markdown(
+        """
+        🌼 *"Even the darkest night will end, and the sun will rise."*  
+        — Victor Hugo
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Emotional support info
+    st.info(
+        """
+        💬 Feeling sad, anxious, or overwhelmed?  
+        🌟 Share your thoughts with me — I'm always here to listen.  
+        🧘 Let’s work together to find comfort and positivity. ✨
+        """
+    )
+
+    # Clear conversation button with feedback
+    st.markdown("---")
+    if st.button("🌀 Clear Our Conversation"):
+        st.session_state.messages = [{"role": "assistant", "content": "Hi, I’m Moon 🌙, your friend. How can I brighten your day?"}]
+        st.success("Conversation cleared! Let's start fresh. 🌈")
+    
+    # Add mental health resources section
+    st.markdown("---")
+    st.header("📚 Resources")
+    st.write("Here are some resources you might find helpful:")
+    st.markdown(
+        """
+        - [🌻 Mindfulness Exercises](https://www.mindful.org/)
+        - [📖 Mental Health Resources](https://www.nami.org/)
+        - [💬 Crisis Text Line](https://www.crisistextline.org/)
+        """
+    )
+
+    # Footer with tagline
+    st.markdown("---")
+    st.markdown(
+        """
+        <div style="text-align: center; font-size: 14px; color: #777;">
+        🌕 <b>Moon: Always here for you.</b> <br>
+        Made with ❤️ to brighten lives.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 # Display chat history using `st.chat_message`
 for message in st.session_state.messages:
@@ -62,7 +111,14 @@ if user_input:
     with st.chat_message("assistant", avatar="images/moon.png"):
         with st.spinner("🌙 Thinking of something thoughtful..."):
             response = generate_response(user_input)
-        st.write(response)
+        
+        # Gradually display response
+        placeholder = st.empty()  # Create a placeholder
+        displayed_text = ""
+        for char in response:
+            displayed_text += char
+            placeholder.markdown(displayed_text)  # Update the placeholder content
+            time.sleep(0.01)  # Adjust typing speed (0.01 seconds per character)
 
     # Add assistant response to session state
     st.session_state.messages.append({"role": "assistant", "content": response})
