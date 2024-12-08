@@ -39,16 +39,6 @@ with st.sidebar:
         "I'm here to listen, support, and brighten your day. 💖 "
         "Let’s share your thoughts, feelings, or stories."
     )
-    
-    # Inspirational quote section
-    st.markdown("---")
-    st.markdown(
-        """
-        🌼 *"Even the darkest night will end, and the sun will rise."*  
-        — Victor Hugo
-        """,
-        unsafe_allow_html=True,
-    )
 
     # Emotional support info
     st.info(
@@ -65,17 +55,6 @@ with st.sidebar:
         st.session_state.messages = [{"role": "assistant", "content": "Hi, I’m Moon 🌙, your friend. How can I brighten your day?"}]
         st.success("Conversation cleared! Let's start fresh. 🌈")
     
-    # Add mental health resources section
-    st.markdown("---")
-    st.header("📚 Resources")
-    st.write("Here are some resources you might find helpful:")
-    st.markdown(
-        """
-        - [🌻 Mindfulness Exercises](https://www.mindful.org/)
-        - [📖 Mental Health Resources](https://www.nami.org/)
-        - [💬 Crisis Text Line](https://www.crisistextline.org/)
-        """
-    )
 
     # Footer with tagline
     st.markdown("---")
